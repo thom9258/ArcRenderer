@@ -1,0 +1,4 @@
+build/
+3rdparty/
+*compile_commands.json
+tests/*/ArcRenderer
