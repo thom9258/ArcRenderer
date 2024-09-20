@@ -27,13 +27,24 @@ find_package(SDL2 REQUIRED)
 
 
 set(ARC_SOURCES
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/FileSlurp.cpp
+
   ${CMAKE_CURRENT_SOURCE_DIR}/src/GlError.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/GlContext.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/GlShader.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/GlIndexBuffer.cpp
 )
 
 set(ARC_INCLUDES
+  ${CMAKE_CURRENT_SOURCE_DIR}/arc/FileSlurp.hpp
+
   ${CMAKE_CURRENT_SOURCE_DIR}/arc/GlError.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/arc/GlContext.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/arc/GlShader.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/arc/GlBasicVertexBuffer.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/arc/GlIndexBuffer.hpp
+  
+
 )
 
 add_library(${PROJECT_NAME} STATIC)

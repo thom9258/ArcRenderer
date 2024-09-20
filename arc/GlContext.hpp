@@ -4,6 +4,12 @@
 #include <SDL2/SDL.h>
 #include <SDL_opengl.h>
 
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <memory>
 
 #include "GlError.hpp"
