@@ -38,7 +38,7 @@ std::unique_ptr<shader> shader::create(const char* vertex_source, const char* fr
     glCompileShader(fShader);
     glGetShaderiv(fShader, GL_COMPILE_STATUS, &success);
     if(!success) {
-        glGetShaderInfoLog(vShader, 512, NULL, infoLog);
+        glGetShaderInfoLog(fShader, 512, NULL, infoLog);
 		std::cout << "Fragment Shader Compilaton Failed:\n"
 				  << infoLog << std::endl;
 		return nullptr;
@@ -52,7 +52,7 @@ std::unique_ptr<shader> shader::create(const char* vertex_source, const char* fr
     glGetProgramiv(program, GL_LINK_STATUS, &success);
 
     if(!success) {
-        glGetShaderInfoLog(vShader, 512, NULL, infoLog);
+        glGetShaderInfoLog(program, 512, NULL, infoLog);
 		std::cout << "Shader Program Linking Failed:\n"
 				  << infoLog << std::endl;
 		return nullptr;
@@ -94,35 +94,35 @@ shader::uniform shader::get_uniform_block_index(const std::string &name)
 void shader::set_mat4(const std::string &name, glm::mat4 value) {
     const auto location = get_uniform(name);
     if (!location)
-		throw arc_generic_error(name + " uniform does not exist!");
+		throw ARC_GENERIC_ERROR(name + " uniform does not exist!");
     glUniformMatrix4fv(*location, 1, GL_FALSE, glm::value_ptr(value)); 
 }
 
 void shader::set_int(const std::string &name, int value) {
     const auto location = get_uniform(name);
     if (!location)
-		return;
+		throw ARC_GENERIC_ERROR("Uniform '" + name + "' does not exist!");
     glUniform1i(*location, value); 
 }
 
 void shader::set_float(const std::string &name, float value) {
     const auto location = get_uniform(name);
     if (!location)
-		return;
+		throw ARC_GENERIC_ERROR("Uniform '" + name + "' does not exist!");
     glUniform1f(*location, value); 
 }
 
 void shader::set_vec3(const std::string &name, glm::vec3 value) {
     const auto location = get_uniform(name);
     if (!location)
-		throw arc_generic_error(name + " uniform does not exist!");
+		throw ARC_GENERIC_ERROR("Uniform '" + name + "' does not exist!");
     glUniform3f(*location, value.x, value.y, value.z); 
 }
 
 void shader::set_vec4(const std::string &name, glm::vec4 value) {
     const auto location = get_uniform(name);
     if (!location)
-		return;
+		throw ARC_GENERIC_ERROR("Uniform '" + name + "' does not exist!");
     glUniform4f(*location, value.x, value.y, value.z, value.w); 
 }
 

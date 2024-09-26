@@ -19,8 +19,12 @@ public:
 	[[nodiscard]]
 	GLuint get_buffer();
 
+	[[nodiscard]]
+	GLuint length();
+
 private:
 	GLuint m_ebo;
+	GLuint m_length;
 };
 
 }	

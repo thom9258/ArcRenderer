@@ -25,9 +25,12 @@ public:
 	[[nodiscard]]
 	static GLuint get_layout();
 
+	[[nodiscard]]
+	GLuint length();
+
 private:
 	GLuint m_vbo;
-	GLuint m_ebo;
+	GLuint m_length;
 	static std::optional<GLuint> g_vao_layout;
 };
 	
@@ -42,6 +45,7 @@ std::optional<GLuint> basic_vertex_buffer<Vertex>::g_vao_layout{std::nullopt};
 	
 template <typename Vertex>
 basic_vertex_buffer<Vertex>::basic_vertex_buffer(const vector_type& vertices)
+	: m_length(vertices.size())
 {
 	glGenBuffers(1, &m_vbo);  
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);  
@@ -69,4 +73,10 @@ GLuint basic_vertex_buffer<Vertex>::get_layout()
 	return basic_vertex_buffer<Vertex>::g_vao_layout.value();
 }
 	
+template <typename Vertex>
+GLuint basic_vertex_buffer<Vertex>::length()
+{
+	return m_length;
+}
+
 }

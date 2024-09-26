@@ -22,12 +22,13 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/glm)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/glad)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/stb)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/renderdoc)
 find_package(SDL2 REQUIRED)
-
 
 
 set(ARC_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/src/FileSlurp.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/RenderDoc.cpp
 
   ${CMAKE_CURRENT_SOURCE_DIR}/src/GlError.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/GlContext.cpp
@@ -37,14 +38,14 @@ set(ARC_SOURCES
 
 set(ARC_INCLUDES
   ${CMAKE_CURRENT_SOURCE_DIR}/arc/FileSlurp.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/arc/RenderDoc.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/arc/BasicGeometry.hpp
 
   ${CMAKE_CURRENT_SOURCE_DIR}/arc/GlError.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/arc/GlContext.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/arc/GlShader.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/arc/GlBasicVertexBuffer.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/arc/GlIndexBuffer.hpp
-  
-
 )
 
 add_library(${PROJECT_NAME} STATIC)

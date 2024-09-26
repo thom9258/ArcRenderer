@@ -3,6 +3,7 @@
 #include <arc/GlIndexBuffer.hpp>
 #include <arc/GlShader.hpp>
 #include <arc/FileSlurp.hpp>
+#include <arc/RenderDoc.hpp>
 
 #include <iostream>
 
@@ -77,6 +78,11 @@ int main(int argc, char** argv)
 {
     (void)argc; (void)argv;
 	try {
+	 //const std::string renderdoc_path = "./librenderdoc.so";
+	 //auto renderdoc = arc::RenderDoc::load(renderdoc_path);
+	 //if (!renderdoc)
+	 //	throw ARC_GENERIC_ERROR("Could not load renderdoc from path: " + renderdoc_path);
+
 		auto context = arc::Context::create("uniforms", WIDTH, HEIGHT);
 
 		std::cout << "GL_MAX_UNIFORM_BUFFER_BINDINGS "   
@@ -109,13 +115,13 @@ int main(int argc, char** argv)
 		const auto vert = arc::file_slurp("../solid.vert");
 #endif
 		if (!vert)
-			throw arc_generic_error("could not load vertex source");
+			throw ARC_GENERIC_ERROR("could not load vertex source");
 		std::cout << lineseperator << "\nVertex shader:\n" << vert.value() 
 				  << lineseperator << std::endl;
 		
 		const auto frag = arc::file_slurp("../solid.frag");
 		if (!frag)
-			throw arc_generic_error("could not load fragment source");
+			throw ARC_GENERIC_ERROR("could not load fragment source");
 		std::cout << lineseperator << "\nFragment shader:\n" << frag.value() 
 				  << lineseperator << std::endl;
 		
@@ -123,7 +129,7 @@ int main(int argc, char** argv)
 										  frag.value().c_str()); 
 		
 		if (!shader)
-			throw arc_generic_error("could not create shader!");
+			throw ARC_GENERIC_ERROR("could not create shader!");
 		
 		CameraUniform cam_uniform;
 		cam_uniform.view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -3.0f)); 
@@ -249,7 +255,7 @@ int main(int argc, char** argv)
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, square_vertices.get_buffer());
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, square_indices.get_buffer());
 
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+			glDrawElements(GL_TRIANGLES, square_indices.length(), GL_UNSIGNED_INT, 0);
 			
 			SDL_GL_SwapWindow(context->window());
 		}
