@@ -110,12 +110,12 @@ Geometry create_cube_geometry()
 
 	SG_status status;
 	SG_size positions_size{0};
-	status = sg_cube_positions(1.0f, 1.0f, 1.0f, nullptr, &positions_size);
+	status = sg_cube_positions(0.5f, 0.5f, 0.5f, nullptr, &positions_size);
 	if (!sg_success(status))
 		throw ARC_GENERIC_ERROR("Could not get positions size");
 
 	std::vector<sg_position> positions(positions_size);
-	status = sg_cube_positions(1.0f, 1.0f, 1.0f, positions.data(), &positions_size);
+	status = sg_cube_positions(0.5f, 0.5f, 0.5f, positions.data(), &positions_size);
 	if (!sg_success(status))
 		throw ARC_GENERIC_ERROR("Could not get positions");
 
@@ -305,24 +305,33 @@ int main(int argc, char** argv)
 			phong_shader->activate();
 			phong_shader->set_mat4("view", cam_uniform.view);
 			phong_shader->set_mat4("proj", cam_uniform.proj);
-			phong_shader->set_mat4("model", cube.model);
-			//phong_shader->set_mat4("model", glm::translate(cube.model,
-			//glm::vec3(0.5f, 0.0f, 0.0f)));
+			//phong_shader->set_mat4("model", cube.model);
+			phong_shader->set_mat4("model", glm::translate(cube.model,
+														   glm::vec3(0.5f, 0.0f, 0.0f)));
 			phong_shader->set_vec3("view_pos", cam_uniform.cam_pos());
-			
-			phong_shader->set_vec3("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
-			phong_shader->set_vec3("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
-			phong_shader->set_vec3("material.specular", glm::vec3(0.5f));
-			phong_shader->set_float("material.shininess", 32.0f);
-			phong_shader->set_vec3("light.position", light.model[3]);
-			phong_shader->set_vec3("light.ambient", glm::vec3(0.2f));
-			phong_shader->set_vec3("light.diffuse", glm::vec3(0.5f));
-			phong_shader->set_vec3("light.specular", glm::vec3(1.0f));
-
+			const auto mat = material_gold();
+			phong_shader->set_vec3("material.ambient", mat.ambient);
+			phong_shader->set_vec3("material.diffuse", mat.diffuse);
+			phong_shader->set_vec3("material.specular", mat.specular);
+			phong_shader->set_float("material.shininess", mat.shininess);
+			phong_shader->set_vec3("pointlight.position", light.model[3]);
+			phong_shader->set_vec3("pointlight.ambient", glm::vec3(0.2f));
+			phong_shader->set_vec3("pointlight.diffuse", glm::vec3(0.5f));
+			phong_shader->set_vec3("pointlight.specular", glm::vec3(1.0f));
 			vertex_buffer_PosNorm::bind_layout();
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			draw_geometry(cube);
 			ARC_ON_GL_ERROR(arc::throw_gl_error);
+			
+			normal_shader->activate();
+			normal_shader->set_mat4("view", cam_uniform.view);
+			normal_shader->set_mat4("proj", cam_uniform.proj);
+			normal_shader->set_mat4("model", glm::translate(cube.model,
+															glm::vec3(-0.5f, 0.0f, 0.0f)));
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			draw_geometry(cube);
+			ARC_ON_GL_ERROR(arc::throw_gl_error);
+
 
 			SDL_GL_SwapWindow(context->window());
 			ARC_ON_GL_ERROR(arc::throw_gl_error);
