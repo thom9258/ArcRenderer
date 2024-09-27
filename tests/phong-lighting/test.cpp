@@ -97,6 +97,37 @@ GLint64 glGetInt64(const GLenum name)
 	return ret;
 }
 
+struct Material {
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
+	float shininess;
+};
+
+/*
+* Materials Lookup:
+* http://devernay.free.fr/cours/opengl/materials.html
+*/ 
+Material material_gold()
+{
+	Material mat;
+	mat.ambient = glm::vec3(0.24725f, 0.1995f, 0.0745f);
+	mat.diffuse = glm::vec3(0.75164f, 0.60648f, 0.22648f);
+	mat.specular = glm::vec3(0.628281f, 0.555802f, 0.366065f);
+	mat.shininess = 0.4f;
+	return mat;
+}
+
+Material material_obsidian()
+{
+	Material mat;
+	mat.ambient = glm::vec3(0.05375f, 0.05f, 0.06625f);
+	mat.diffuse = glm::vec3(0.18275f, 0.17f, 0.22525f);
+	mat.specular = glm::vec3(0.332741f, 0.328634f, 0.346435f);
+	mat.shininess = 0.3f;
+	return mat;
+}
+
 struct Geometry {
 	std::unique_ptr<vertex_buffer_PosNorm> vertices{nullptr};
 	std::unique_ptr<arc::index_buffer> indices{nullptr};
